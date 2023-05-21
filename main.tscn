@@ -1,0 +1,115 @@
+[gd_scene load_steps=17 format=3 uid="uid://sul4322wjrl0"]
+
+[ext_resource type="ArrayMesh" uid="uid://nb2ucmjf84pe" path="res://model.obj" id="2_dxrnb"]
+[ext_resource type="VoxelGeneratorGraph" uid="uid://goexg8vlhw88" path="res://voxelgenerator.tres" id="2_ja8bl"]
+[ext_resource type="PackedScene" uid="uid://cd0yh6nhtqt3q" path="res://character.tscn" id="3_h7u2w"]
+
+[sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_3gkfl"]
+voxel_name = &"Air"
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_d1wyv"]
+albedo_color = Color(0, 0.701961, 0.141176, 1)
+
+[sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_srxpf"]
+voxel_name = &"Grass"
+color = Color(0.129412, 0.658824, 0.0784314, 1)
+geometry_type = 1
+collision_aabbs = Array[AABB]([AABB(0, 0, 0, 1, 1, 1)])
+cube_geometry_padding_y = null
+cube_tiles_left = Vector2(0, 0)
+cube_tiles_right = Vector2(0, 0)
+cube_tiles_bottom = Vector2(0, 0)
+cube_tiles_top = Vector2(0, 0)
+cube_tiles_back = Vector2(0, 0)
+cube_tiles_front = Vector2(0, 0)
+material_override_0 = SubResource("StandardMaterial3D_d1wyv")
+collision_enabled_0 = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kslyf"]
+albedo_color = Color(1, 1, 0.415686, 1)
+
+[sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_71odf"]
+voxel_name = &"Sand"
+color = Color(1, 1, 0.372549, 1)
+geometry_type = 1
+collision_aabbs = Array[AABB]([AABB(0, 0, 0, 1, 1, 1)])
+cube_geometry_padding_y = null
+cube_tiles_left = Vector2(0, 0)
+cube_tiles_right = Vector2(0, 0)
+cube_tiles_bottom = Vector2(0, 0)
+cube_tiles_top = Vector2(0, 0)
+cube_tiles_back = Vector2(0, 0)
+cube_tiles_front = Vector2(0, 0)
+material_override_0 = SubResource("StandardMaterial3D_kslyf")
+collision_enabled_0 = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mqey4"]
+transparency = 1
+albedo_color = Color(0.12549, 0.721569, 0.607843, 0.784314)
+
+[sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_qstcv"]
+voxel_name = &"Water"
+color = Color(0.0352941, 1, 1, 1)
+transparent = true
+transparency_index = 1
+geometry_type = 1
+custom_mesh = ExtResource("2_dxrnb")
+collision_aabbs = Array[AABB]([AABB(0, 0, 0, 1, 1, 1)])
+collision_mask = 0
+cube_geometry_padding_y = null
+cube_tiles_left = Vector2(0, 0)
+cube_tiles_right = Vector2(0, 0)
+cube_tiles_bottom = Vector2(0, 0)
+cube_tiles_top = Vector2(0, 0)
+cube_tiles_back = Vector2(0, 0)
+cube_tiles_front = Vector2(0, 0)
+material_override_0 = SubResource("StandardMaterial3D_mqey4")
+collision_enabled_0 = false
+
+[sub_resource type="VoxelBlockyLibrary" id="VoxelBlockyLibrary_1msoy"]
+voxels/0 = SubResource("VoxelBlockyModel_3gkfl")
+voxels/1 = SubResource("VoxelBlockyModel_srxpf")
+voxels/2 = SubResource("VoxelBlockyModel_71odf")
+voxels/3 = SubResource("VoxelBlockyModel_qstcv")
+
+[sub_resource type="VoxelMesherBlocky" id="VoxelMesherBlocky_n61ag"]
+library = SubResource("VoxelBlockyLibrary_1msoy")
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_u43xx"]
+
+[sub_resource type="Sky" id="Sky_s60jd"]
+sky_material = SubResource("ProceduralSkyMaterial_u43xx")
+process_mode = 3
+
+[sub_resource type="Environment" id="Environment_gmive"]
+background_mode = 2
+background_color = Color(0.658824, 0.772549, 1, 1)
+sky = SubResource("Sky_s60jd")
+ambient_light_source = 3
+ambient_light_color = Color(1, 1, 1, 1)
+tonemap_mode = 3
+fog_light_color = Color(1, 1, 1, 1)
+volumetric_fog_enabled = true
+volumetric_fog_density = 0.02
+volumetric_fog_detail_spread = 6.0
+volumetric_fog_sky_affect = 0.0
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_n0bh2"]
+auto_exposure_enabled = true
+
+[node name="Main" type="Node3D"]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -0.26256, 0.964916, 0, -0.964916, -0.26256, 0, 0, 0)
+shadow_enabled = true
+
+[node name="Character" parent="." instance=ExtResource("3_h7u2w")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 138.043, 48.2187)
+
+[node name="VoxelTerrain" type="VoxelTerrain" parent="."]
+generator = ExtResource("2_ja8bl")
+mesher = SubResource("VoxelMesherBlocky_n61ag")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_gmive")
+camera_attributes = SubResource("CameraAttributesPractical_n0bh2")

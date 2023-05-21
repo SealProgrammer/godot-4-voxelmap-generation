@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://cd0yh6nhtqt3q"]
+
+[ext_resource type="Script" path="res://character.gd" id="1_g4sh4"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_qx1tn"]
+
+[node name="Character" type="CharacterBody3D"]
+script = ExtResource("1_g4sh4")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_qx1tn")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+
+[node name="VoxelViewer" type="VoxelViewer" parent="Camera3D"]
+view_distance = 512
